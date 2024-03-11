@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeremias Ignacio Alvarez Verdier - Padawan</title>
+  <style>
+    body {
+      margin: 0;
+      
+      font-family: Bahnschrift;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      line-height: 1.3;
+      color: rgb(240, 238, 238);
+      text-align: center; /* Centrar todo el texto */
+      overflow: hidden; /* Evita las barras de desplazamiento */
+    }
+
+    a {
+      color: gray; /* Color de los enlaces */
+      text-decoration: none; /* Quitar subrayado de los enlaces */
+    }
+
+
+   .contact-info,
+    .personal-info,
+    .additional-info,
+    .education,
+    .experience,
+    .courses {
+      margin-bottom: 30px;
+      font-size: 24px; /* Tamaño de letra más grande */
+
+    }
+
+    .contact-info h2,
+    .personal-info h2,
+    .additional-info h2,
+    .education h2,
+    .experience h2,
+    .courses h2 {
+      margin-top: 0;
+    }
+
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .glitch {
+      position: relative;
+      font-size: 48px;
+      animation: glitch-animation 1s infinite;
+    }
+
+    @keyframes glitch-animation {
+      0% {
+        text-shadow: -5px 5px 10px rgba(255, 0, 0, 0.5);
+      }
+      25% {
+        text-shadow: 5px -5px 10px rgba(0, 255, 0, 0.5);
+      }
+      50% {
+        text-shadow: -5px 5px 10px rgba(0, 0, 255, 0.5);
+      }
+      75% {
+        text-shadow: 5px -5px 10px rgba(255, 255, 0, 0.5);
+      }
+      100% {
+        text-shadow: -5px 5px 10px rgba(255, 0, 255, 0.5);
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+   
+      
+      <div class="personal-info">
+        <h1 class="glitch">DATA</h1>
+        <p>Name: Jeremias Ignacio Alvarez Verdier</p>
+        <p>Location: Buenos Aires</p>
+        <p>Email: <a href="mailto:jererere@gmail.com">jererere@gmail.com</a></p>
+        <p>Phone: 1162874927</p>
+      </div>
+      
+      <div class="additional-info">
+        <h1 class="glitch">Additional Information</h1>
+        <p>Website: <a href="https://www.youtube.com/channel/UCVzQvEwMM18LKd8Qw9IcJgg">YouTube Channel</a></p>
+        <p>Instagram: <a href="https://www.instagram.com/jrms.lvrz/">@jrms.lvrz</a></p>
+        <p>Facebook: <a href="https://www.facebook.com/jererere/">Jererere</a>, <a href="https://www.facebook.com/dj.lvrz/">DJ LVRZ</a></p>
+        <p>SoundCloud: <a href="https://soundcloud.com/alva-lvrz/">LVRZ</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/lvrz/">LVRZ</a></p>
+        <p>Full CV: <a href="https://docs.google.com/document/d/1i0y6dWfbsBoAnlMI8A2aCuD5KBfbbrEe/edit?usp=drive_link&ouid=106261045135434109855&rtpof=true&sd=true">DOCS</a></p>
+
+        <div class="personal-info">
+            <h1 class="glitch">SKILLS</h1>
+            <p>CREATIVITY | FAST LEARNING</p>
+            <p>MUSICAL MASTERING | HYDROPHONICS </p>
+            <p>PYTHON | SQL</p>
+            <p>RESOLVE PROBLEMS</p>
+            <p>GOOD COMMUNICATION | WELL PRESENTATION</p>
+            <p>SPANISH | ENGLISH</p>
+          </div>
+      </div>
+      
+  </style>
+</head>
+<body>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.min.js"></script>
+<script>
+  let walls = [];
+  let ray;
+  let particle;
+  let xoff = 0;
+  let yoff = 10000;
+  let prevmouse;
+  let glitch;
+
+
+  function setup() {
+    let canvas = createCanvas(window.innerWidth, window.innerHeight);
+    canvas.position(0, 0);
+    canvas.style('z-index', '-1'); // Coloca el lienzo detrás de otros elementos
+    walls.push(new Boundary(0, 0, width, 0));
+    walls.push(new Boundary(width, 0, width, height));
+    walls.push(new Boundary(width, height, 0, height));
+    walls.push(new Boundary(0, height, 0, 0));
+    particle = new Particle();
+  }
+
+  function mouseReleased() {
+    console.log("release");
+    prevmouse = null;
+  }
+
+  function mouseDragged(e) {
+    if (!prevmouse) prevmouse = { x: mouseX, y: mouseY };
+    walls.push(new Boundary(prevmouse.x, prevmouse.y, mouseX, mouseY));
+    prevmouse = { x: mouseX, y: mouseY };
+  }
+
+  function draw() {
+    background(0);
+    for (let wall of walls) {
+      wall.show();
+    }
+    particle.update(noise(xoff) * width, noise(yoff) * height);
+    particle.show();
+    particle.look(walls);
+
+    xoff += 0.01;
+    yoff += 0.01;
+  }
+
+  class Boundary {
+    constructor(x1, y1, x2, y2) {
+      this.a = createVector(x1, y1);
+      this.b = createVector(x2, y2);
+    }
+
+    show() {
+      stroke(255);
+      line(this.a.x, this.a.y, this.b.x, this.b.y);
+    }
+  }
+
+  class Particle {
+    constructor() {
+      this.pos = createVector(width / 2, height / 2);
+      this.rays = [];
+      for (let a = 0; a < 360; a += 1) {
+        this.rays.push(new Ray(this.pos, radians(a)));
+      }
+    }
+
+    update(x, y) {
+      this.pos.set(x, y);
+    }
+
+    show() {
+      fill(255);
+      ellipse(this.pos.x, this.pos.y, 4);
+      for (let ray of this.rays) {
+        ray.show();
+      }
+    }
+
+    look(walls) {
+      for (let ray of this.rays) {
+        let closest = null;
+        let record = Infinity;
+        for (let wall of walls) {
+          const pt = ray.cast(wall);
+          if (pt) {
+            const d = p5.Vector.dist(this.pos, pt);
+            if (d < record) {
+              record = d;
+              closest = pt;
+            }
+          }
+        }
+        if (closest) {
+          stroke(255, 100);
+          line(this.pos.x, this.pos.y, closest.x, closest.y);
+        }
+      }
+    }
+  }
+
+  class Ray {
+    constructor(pos, angle) {
+      this.pos = pos;
+      this.dir = p5.Vector.fromAngle(angle);
+    }
+
+    show() {
+      stroke(255, 50);
+      push();
+      translate(this.pos.x, this.pos.y);
+      line(0, 0, this.dir.x * 10, this.dir.y * 10);
+      pop();
+    }
+
+    cast(wall) {
+      const x1 = wall.a.x;
+      const y1 = wall.a.y;
+      const x2 = wall.b.x;
+      const y2 = wall.b.y;
+
+      const x3 = this.pos.x;
+      const y3 = this.pos.y;
+      const x4 = this.pos.x + this.dir.x;
+      const y4 = this.pos.y + this.dir.y;
+
+      const den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+      if (den == 0) {
+        return;
+      }
+
+      const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den;
+      const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den;
+      if (t > 0 && t < 1 && u > 0) {
+        const pt = createVector();
+        pt.x = x1 + t * (x2 - x1);
+        pt.y = y1 + t * (y2 - y1);
+        return pt;
+      } else {
+        return;
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
